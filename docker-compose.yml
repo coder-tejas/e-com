@@ -1,0 +1,44 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: ecom-mongo
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  redis:
+    image: redis:7-alpine
+    container_name: ecom-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  server:
+    build: ./server
+    container_name: ecom-server
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    env_file:
+      - ./server/.env
+    environment:
+      MONGO_URI: mongodb://mongo:27017/ecommerce-2024
+      REDIS_URI: redis://redis:6379
+      CLIENT_URL: http://localhost:5173
+    depends_on:
+      - mongo
+      - redis
+
+  client:
+    build: ./client
+    container_name: ecom-client
+    restart: unless-stopped
+    ports:
+      - "4173:4173"
+    depends_on:
+      - server
+
+volumes:
+  mongo-data:
