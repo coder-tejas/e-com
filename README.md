@@ -89,6 +89,25 @@ docker compose up --build
 # server → http://localhost:4000, client → http://localhost:4173
 ```
 
+## Deploy on Vercel (Services)
+
+`vercel.json` at the repo root deploys both apps as one project on one domain:
+
+- `client` (Vite) serves everything except `/api/*`
+- `server` (Express) serves `/api/*` — the service receives the original path, so the existing `/api/v1/...` routes work unchanged
+
+Steps:
+
+1. In the Vercel project settings (**Build and Deployment**), set the framework to **Services**.
+2. Deploy — `vercel.json` is picked up automatically.
+3. Set shared environment variables in the Vercel dashboard: `MONGO_URI` (use Atlas, not localhost), `REDIS_URI`, `STRIPE_KEY`, `CLOUD_NAME`, `CLOUD_API_KEY`, `CLOUD_API_SECRET`, plus the client `VITE_FIREBASE_*`, `VITE_APP_ID`, `VITE_STRIPE_KEY`.
+4. Do **not** set `VITE_SERVER` on Vercel — the client defaults to same-origin `/api/v1/...`, which the rewrite routes to the server service. (`VITE_SERVER` is only for local dev in `client/.env`.)
+
+Notes:
+
+- Uploads go to Cloudinary (multer memory storage), so the ephemeral serverless filesystem is not an issue.
+- No service bindings are used: the only cross-service calls are browser → public `/api/*` route, and bindings only resolve in server-side functions, not in the static frontend.
+
 ## Notes
 
 - Server loads `server/.env` (its `dotenv` path is `./.env`, so always run it with `server/` as cwd — the root scripts already do `cd server && ...`).

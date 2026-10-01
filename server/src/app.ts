@@ -38,11 +38,16 @@ export const stripe = new Stripe(stripeKey);
 
 const app = express();
 
+// In production both services share one domain (Vercel rewrites /api/* to
+// this service), so same-origin requests need no CORS headers. Only allow
+// an extra cross-origin client when CLIENT_URL is explicitly set (local dev).
+const allowedOrigins = [clientURL].filter(Boolean);
+
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(
   cors({
-    origin: [clientURL],
+    origin: allowedOrigins.length > 0 ? allowedOrigins : false,
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials: true,
   })
@@ -62,6 +67,11 @@ app.use("/api/v1/dashboard", dashboardRoute);
 app.use("/uploads", express.static("uploads"));
 app.use(errorMiddleware);
 
-app.listen(port, () => {
-  console.log(`Express is working on http://localhost:${port}`);
-});
+// Vercel serves the exported app as a function — never call listen there.
+if (!process.env.VERCEL) {
+  app.listen(port, () => {
+    console.log(`Express is working on http://localhost:${port}`);
+  });
+}
+
+export default app;

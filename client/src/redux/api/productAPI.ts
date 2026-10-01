@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { server } from "../serverUrl";
 import {
   AllProductsResponse,
   AllReviewsResponse,
@@ -17,7 +18,7 @@ import {
 export const productAPI = createApi({
   reducerPath: "productApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${import.meta.env.VITE_SERVER}/api/v1/product/`,
+    baseUrl: `${server}/api/v1/product/`,
   }),
   tagTypes: ["product"],
   endpoints: (builder) => ({
