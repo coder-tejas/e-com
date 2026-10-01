@@ -1,41 +1,56 @@
 ﻿
-# MERN E-COMMERCE SERVER 2024
+# MERN E-Commerce Server
 
-Hi! My name is **Abhishek Nahar Singh**, I have created this tutorial to teach MERN Stack for free on YouTube.
+Express + TypeScript REST API for the MERN e-commerce app. Uses MongoDB (Mongoose), Redis caching (ioredis), Cloudinary image uploads, and Stripe payments.
 
-# Prerequisite
+## Prerequisites
 
-1.  Must have basic knowledge of **Node**, **React**, **Express**, **MongoDB** . _I have made tutorial on each technology on YouTube , make sure to check it out_. **Links are Below respectively**
-2.  TypeScript - https://youtu.be/66_bET6sI20
-3.   Node - https://youtu.be/BSO9C8Z-YV8
-4.  React In One Video - https://youtu.be/b50zSyLiCYQ
-5. React Full Course - https://www.youtube.com/playlist?list=PLt5mNkGuWcuWSUHxSzWP74IU9U4BTVLt0
-6.  Express - https://youtu.be/teipbke8c4A\
-7.  MongoDB - https://youtu.be/AYDP1S5BbTo
-8. Master Backend In One Video - https://youtu.be/cGAdC4A5fF4
-9.  RestApi - https://youtu.be/AhCSfuG9Jxw _(optional)_
+- Node >= 18
+- MongoDB (local or Atlas)
+- Redis (local or cloud)
+- Cloudinary account, Stripe account
 
-# Install Dependencies
+## Install & Run
 
-**For Backend** - `npm i && npm run build`
+```bash
+npm i
+npm run build   # compile TypeScript to dist/
+npm start       # node dist/app.js
+```
 
+Dev mode (watch):
+
+```bash
+npm run dev
+```
 
 ## Env Variables
 
-Make Sure to Create a  .env file in root directory and add appropriate variables in order to use the app.
+Create a `.env` file in this directory:
 
-**Essential Variables**
-PORT= `4000 or any`
-MONGO_URI= `mongodb://localhost:27017 or cloud uri`
-STRIPE_KEY=`stripe secret key`
-PRODUCT_PER_PAGE=`8 or any`
+```env
+PORT=4000
+MONGO_URI=mongodb://localhost:27017/ecommerce-2024
+REDIS_URI=redis://localhost:6379
+REDIS_TTL=
+STRIPE_KEY=stripe_secret_key
+PRODUCT_PER_PAGE=8
+CLOUD_NAME=
+CLOUD_API_KEY=
+CLOUD_API_SECRET=
+CLIENT_URL=http://localhost:5173
+```
 
-_fill each filed with your info respectively_
+## API Routes
 
-## Author
+Base: `/api/v1`
 
-**Instagram** Click [Here](https://www.instagram.com/meabhisingh) **@meAbhiSingh**
-**YouTube** Click [Here](https://www.youtube.com/channel/UCO7afj9AUo0zV69pqEYhcjw/) **6 Pack Programmer**
-**LinkedIn** Click [Here](https://in.linkedin.com/in/meabhisingh) **@meAbhiSingh**
-**Twitter** Click [Here](https://twitter.com/meAbhi_Singh) **@meAbhi_Singh**
+| Route         | Description              |
+| ------------- | ------------------------ |
+| `/user`       | Auth, profiles, admin    |
+| `/product`    | Products, reviews, stock |
+| `/order`      | Orders, coupons          |
+| `/payment`    | Stripe + discounts       |
+| `/dashboard`  | Admin stats & charts     |
 
+Health check: `GET /` → `API Working with /api/v1`

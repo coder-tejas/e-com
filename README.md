@@ -1,13 +1,14 @@
-# MERN E-Commerce 2024 (Monorepo)
+# MERN E-Commerce (Monorepo)
 
 Full-stack e-commerce app — Express + MongoDB + Redis backend with a React + Vite + Redux Toolkit frontend.
 
-Combined into a single repo from:
+## Features
 
-- Backend: https://github.com/meabhisingh/mern-ecommerce-server-2024 → [`server/`](server/)
-- Frontend: https://github.com/meabhisingh/mern-ecommerce-frontend-2024 → [`client/`](client/)
-
-Git history for both projects is preserved via `git subtree` (squashed).
+- Product catalog with search, filters, pagination, and reviews
+- Cart, Stripe checkout, discount coupons
+- Order management and admin dashboard with sales charts
+- Redis-cached product/order queries, Cloudinary image uploads
+- Firebase authentication, role-based admin routes
 
 ## Structure
 
@@ -92,19 +93,5 @@ docker compose up --build
 
 - Server loads `server/.env` (its `dotenv` path is `./.env`, so always run it with `server/` as cwd — the root scripts already do `cd server && ...`).
 - Client appends `/api/v1/...` to `VITE_SERVER`, so set it to the bare host (`http://localhost:4000`, no trailing path).
-- Server repo ships `.gitIgnore` (capital I) which Git ignores on Linux — the root `.gitignore` covers `server/dist`, `server/uploads`, and `.env` files instead.
+- The root `.gitignore` covers `server/dist`, `server/uploads`, `client/dist`, and all `.env` files.
 - API base: `http://localhost:4000/api/v1` (`/user`, `/product`, `/order`, `/payment`, `/dashboard`).
-
-## Pulling upstream updates
-
-```bash
-git fetch https://github.com/meabhisingh/mern-ecommerce-server-2024 master
-git subtree pull --prefix=server https://github.com/meabhisingh/mern-ecommerce-server-2024 master --squash
-
-git fetch https://github.com/meabhisingh/mern-ecommerce-frontend-2024 master
-git subtree pull --prefix=client https://github.com/meabhisingh/mern-ecommerce-frontend-2024 master --squash
-```
-
-## Credits
-
-Original tutorials by **Abhishek Nahar Singh (6 Pack Programmer)** — see [`server/README.md`](server/README.md) and [`client/README.md`](client/README.md).
