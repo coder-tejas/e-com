@@ -1,0 +1,29 @@
+# Dependencies
+node_modules/
+
+# Builds
+dist/
+dist-ssr/
+server/dist/
+client/dist/
+
+# Env (contains secrets — never commit real values)
+.env
+.env.local
+server/.env
+client/.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store/
+
+# Uploads (multer local storage used by server)
+server/uploads/
+uploads/
